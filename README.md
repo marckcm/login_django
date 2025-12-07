@@ -97,5 +97,3 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
 Acesse a aplicação em seu navegador em `http://127.0.0.1:8000`.
 
 ---
-
-_Este README foi gerado com o auxílio do Gemini Code Assist._
