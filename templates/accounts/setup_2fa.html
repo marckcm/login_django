@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Configurar 2FA{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Configurar Autenticação de Dois Fatores</h2>
+    
+    <p style="color: #6b7280; margin-bottom: 1rem;">
+        1. Escaneie o QR Code abaixo com um aplicativo autenticador (Google Authenticator, Authy, etc.)
+    </p>
+    
+    <div class="qr-code">
+        <img src="{{ qr_code }}" alt="QR Code 2FA">
+    </div>
+    
+    <p style="color: #6b7280; margin-bottom: 0.5rem;">
+        2. Ou insira manualmente esta chave:
+    </p>
+    <div class="secret-key">{{ secret }}</div>
+    
+    <p style="color: #6b7280; margin: 1.5rem 0;">
+        3. Digite o código de 6 dígitos gerado pelo app para confirmar:
+    </p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>{{ form.token.label }}</label>
+            {{ form.token }}
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%;">Ativar 2FA</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary" style="width: 100%;">Entrar</button>
+    </form>
+    <p class="text-center mt-2">
+        <a href="{% url 'password_reset_request' %}" style="color: #667eea;">Esqueceu a senha?</a>
+    </p>
+    <p class="text-center mt-2">
+        Não tem conta? <a href="{% url 'register' %}" style="color: #667eea;">Cadastre-se</a>
+    </p>
+</div>
+{% endblock %}

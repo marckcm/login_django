@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Usuário{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Confirmar Exclusão</h2>
+    <p style="color: #6b7280; margin: 1.5rem 0;">
+        Tem certeza de que deseja excluir o usuário <strong>{{ user.email }}</strong>?
+        Esta ação não pode ser desfeita.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger" style="width: 100%; margin-bottom: 1rem;">Sim, Excluir</button>
+        <a href="{% url 'user_list' %}" class="btn-secondary" style="width: 100%; display: block; text-align: center; text-decoration: none; padding: 0.75rem;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

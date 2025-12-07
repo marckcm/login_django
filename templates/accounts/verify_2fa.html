@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Verificação 2FA{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>🔐 Autenticação de Dois Fatores</h2>
+    <p style="color: #6b7280; margin-bottom: 1.5rem;">
+        Digite o código de 6 dígitos do seu aplicativo autenticador
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>{{ form.token.label }}</label>
+            {{ form.token }}
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%;">Verificar</button>
+    </form>
+</div>
+{% endblock %}

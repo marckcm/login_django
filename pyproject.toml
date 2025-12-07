@@ -1,0 +1,13 @@
+[project]
+name = "login-django"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.2.9",
+    "django-otp>=1.6.3",
+    "pillow>=12.0.0",
+    "pyotp>=2.9.0",
+    "python-decouple>=3.8",
+    "qrcode>=8.2",
+    "django-stubs>=5.0.0",
+]

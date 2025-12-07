@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Criar Conta</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <small style="color: red;">{{ field.errors.0 }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary" style="width: 100%;">Cadastrar</button>
+    </form>
+    <p class="text-center mt-2">
+        Já tem uma conta? <a href="{% url 'home' %}" style="color: #667eea;">Faça login</a>
+    </p>
+</div>
+{% endblock %}

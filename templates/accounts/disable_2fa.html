@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Desativar 2FA{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Desativar 2FA</h2>
+    <p style="color: #6b7280; margin: 1.5rem 0;">
+        Tem certeza de que deseja desativar a autenticação de dois fatores? Isso tornará sua conta menos segura.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger" style="width: 100%; margin-bottom: 1rem;">Sim, Desativar</button>
+        <a href="{% url 'dashboard' %}" class="btn-secondary" style="width: 100%; display: block; text-align: center; text-decoration: none; padding: 0.75rem;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

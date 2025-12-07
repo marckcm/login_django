@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Usuários{% endblock %}
+
+{% block content %}
+<div class="card card-wide">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2>Gerenciar Usuários</h2>
+        <a href="{% url 'user_create' %}" class="btn-primary">+ Novo Usuário</a>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>2FA</th>
+                <th>Staff</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>
+                    {% if user.is_active %}
+                    <span style="color: #059669;">Ativo</span>
+                    {% else %}
+                    <span style="color: #dc2626;">Inativo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.is_2fa_enabled %}✓{% else %}✗{% endif %}
+                </td>
+                <td>
+                    {% if user.is_staff %}✓{% else %}✗{% endif %}
+                </td>
+                <td class="actions">
+                    <a href="{% url 'user_update' user.pk %}" class="btn-primary btn-small">Editar</a>
+                    <a href="{% url 'user_delete' user.pk %}" class="btn-danger btn-small">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
