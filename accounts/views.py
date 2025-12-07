@@ -158,6 +158,9 @@ def user_delete_view(request, pk):
 
 
 def password_reset_request_view(request):
+    # Verifica se está usando console backend
+    is_console_backend = 'console' in settings.EMAIL_BACKEND.lower()
+    
     if request.method == 'POST':
         form = PasswordResetRequestForm(request.POST)
         if form.is_valid():
@@ -172,24 +175,54 @@ def password_reset_request_view(request):
                     reverse('password_reset_confirm', args=[token])
                 )
 
-                send_mail(
-                    'Redefinição de Senha',
-                    f'Clique no link para redefinir sua senha: {reset_url}',
-                    settings.DEFAULT_FROM_EMAIL,
-                    [email],
-                    fail_silently=False,
-                )
+                try:
+                    send_mail(
+                        'Redefinição de Senha',
+                        f'Clique no link para redefinir sua senha: {reset_url}',
+                        settings.DEFAULT_FROM_EMAIL,
+                        [email],
+                        fail_silently=False,
+                    )
+                    
+                    # Se estiver usando console backend, mostra o link na página
+                    if is_console_backend:
+                        messages.info(request,
+                            '⚠️ Modo Desenvolvimento: Email não foi enviado. '
+                            'Verifique o console do servidor ou use o link abaixo.')
+                        return render(request, 'accounts/password_reset_request.html', {
+                            'form': form,
+                            'reset_url': reset_url,
+                            'is_console_backend': True
+                        })
+                    else:
+                        messages.success(request,
+                            'Email de redefinição de senha enviado com sucesso! '
+                            'Verifique sua caixa de entrada (e a pasta de spam).')
+                except Exception as e:
+                    messages.error(request,
+                        f'Erro ao enviar e-mail: {str(e)}. '
+                        'Verifique as configurações de e-mail.')
+                    return render(request, 'accounts/password_reset_request.html', {
+                        'form': form,
+                        'is_console_backend': is_console_backend
+                    })
             except User.DoesNotExist:
                 # Não revela se o usuário existe ou não.
                 # Apenas continue, a mensagem de sucesso será mostrada de qualquer forma.
                 pass
 
-            messages.success(request,
-                'Se um usuário com esse e-mail existir, um link para redefinição de senha foi enviado.')
+            # Se chegou aqui e não mostrou mensagem acima, mostra mensagem genérica
+            if not is_console_backend:
+                messages.success(request,
+                    'Se um usuário com esse e-mail existir, um link para redefinição de senha foi enviado.')
             return redirect('home')
     else:
         form = PasswordResetRequestForm()
-    return render(request, 'accounts/password_reset_request.html', {'form': form})
+    
+    return render(request, 'accounts/password_reset_request.html', {
+        'form': form,
+        'is_console_backend': is_console_backend
+    })
 
 
 def password_reset_confirm_view(request, token):

@@ -69,12 +69,28 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
     ```
 
 4.  **Configure as variáveis de ambiente:**
-    Crie um arquivo `.env` na raiz do projeto e adicione a `SECRET_KEY` do Django.
+    Crie um arquivo `.env` na raiz do projeto ou configure as variáveis de ambiente do sistema.
+
+    **Configuração Básica:**
 
     ```ini
     # .env
     SECRET_KEY='sua-chave-secreta-super-segura-aqui'
     ```
+
+    **Configuração de Email (Opcional - para produção):**
+    Para enviar emails reais (como recuperação de senha), configure as seguintes variáveis:
+
+    ```ini
+    # .env
+    EMAIL_HOST_USER=seu@email.com
+    EMAIL_HOST_PASSWORD=sua_senha_app  # Para Gmail, use "Senha de App"
+    EMAIL_HOST=smtp.gmail.com
+    EMAIL_PORT=587
+    EMAIL_USE_TLS=True
+    ```
+
+    **Nota:** Se as credenciais de email não estiverem configuradas, o sistema usará o backend de console (emails aparecerão no terminal). Isso é útil para desenvolvimento.
 
 5.  **Aplique as migrações do banco de dados:**
 
